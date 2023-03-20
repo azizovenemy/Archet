@@ -9,13 +9,9 @@ namespace Architecture
     {
         private int value = 10;
 
-        public static SceneManagerBase sceneManager;
-
         private void Start()
         {
-            sceneManager = new SceneManagerExample();
-            sceneManager.InitScenesMap();
-            sceneManager.LoadCurrentSceneAsync();
+            Game.Run();
         }
 
         private void Update()

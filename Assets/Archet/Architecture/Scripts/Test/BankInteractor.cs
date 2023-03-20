@@ -9,7 +9,7 @@ namespace Architecture
         public override void OnCreate()
         {
             base.OnCreate();
-            this.repository = Tester.sceneManager.GetRepository<BankRepository>();
+            this.repository = Game.GetRepository<BankRepository>();
         }
 
         public override void Initialize()
