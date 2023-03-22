@@ -1,7 +1,10 @@
-public enum TimerType
+namespace Timer
 {
-    UpdateTick,
-    UpdateTickUnscaled,
-    UpdateSecondTick,
-    UpdateSecondTickUnscaled
+    public enum TimerType
+    {
+        UpdateTick,
+        UpdateTickUnscaled,
+        UpdateSecondTick,
+        UpdateSecondTickUnscaled
+    }
 }

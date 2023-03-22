@@ -5,7 +5,6 @@ namespace Architecture
     public class BankRepository : Repository
     {
         private const string KEY = "TEST_KEY";
-
         public int money { get; set; }
 
         public override void Initialize()

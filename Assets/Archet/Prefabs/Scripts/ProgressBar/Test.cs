@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class TimerExample : MonoBehaviour
 {
     public event Action<float> OnPlayerHealthValueChangedEvent;
 

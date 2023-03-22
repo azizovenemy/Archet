@@ -8,7 +8,7 @@ public class UIWidgetLifeBar : MonoBehaviour
 
     private void OnEnable()
     {
-        var example = FindObjectOfType<Test>();
+        var example = FindObjectOfType<TimerExample>();
         progressBar.SetValue(example.healthNormalized);
 
         example.OnPlayerHealthValueChangedEvent += OnPlayerHealthValueChanged;
@@ -21,7 +21,7 @@ public class UIWidgetLifeBar : MonoBehaviour
 
     private void OnDisable()
     {
-        var example = FindObjectOfType<Test>();
+        var example = FindObjectOfType<TimerExample>();
 
         if(example)
             example.OnPlayerHealthValueChangedEvent -= OnPlayerHealthValueChanged;
