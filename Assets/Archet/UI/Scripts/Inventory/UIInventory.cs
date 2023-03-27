@@ -15,6 +15,6 @@ public class UIInventory : MonoBehaviour
     {
         var uiSlots = GetComponentsInChildren<UIInventorySlot>();
         _tester = new UITester(_appleInfo, _pepperInfo, uiSlots);
-        _tester.OnFillingLots();
+        _tester.OnFillingSlots();
     }
 }

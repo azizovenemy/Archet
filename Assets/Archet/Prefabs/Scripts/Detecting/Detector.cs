@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Detector : MonoBehaviour, IDetector
 {
     public event ObjectDetectedHandler OnGameObjectDetectedEvent;
@@ -13,10 +14,10 @@ public class Detector : MonoBehaviour, IDetector
     {
         if (_detectedObjects.Contains(detectableObject.gameObject) == false)
         {
-            detectableObject.Detected(this.gameObject);
+            detectableObject.Detected(gameObject);
             _detectedObjects.Add(detectableObject.gameObject);
 
-            OnGameObjectDetectedEvent?.Invoke(this.gameObject, detectableObject.gameObject);
+            OnGameObjectDetectedEvent?.Invoke(gameObject, detectableObject.gameObject);
         }
     }
 
@@ -24,10 +25,10 @@ public class Detector : MonoBehaviour, IDetector
     {
         if (_detectedObjects.Contains(detectableObject.gameObject) == true)
         {
-            detectableObject.DetectionReleased(this.gameObject);
+            detectableObject.DetectionReleased(gameObject);
             _detectedObjects.Remove(detectableObject.gameObject);
 
-            OnGameObjectDetectionReleasedEvent?.Invoke(this.gameObject, detectableObject.gameObject);
+            OnGameObjectDetectionReleasedEvent?.Invoke(gameObject, detectableObject.gameObject);
         }
     }
 

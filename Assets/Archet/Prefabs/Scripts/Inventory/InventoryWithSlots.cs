@@ -27,8 +27,7 @@ public class InventoryWithSlots : IInventory
 
     public bool TryToAdd(object sender, IInventoryItem item)
     {
-        var slotsWithSameItemButNotEmpty = _slots.
-            Find(slot => !slot.isEmpty && slot.itemType == item.type && !slot.isFull);
+        var slotsWithSameItemButNotEmpty = _slots.Find(slot => !slot.isEmpty && slot.itemType == item.type && !slot.isFull);
 
         if(slotsWithSameItemButNotEmpty != null)
             return TryToAddToSlot(sender, slotsWithSameItemButNotEmpty, item);
@@ -38,15 +37,15 @@ public class InventoryWithSlots : IInventory
         if(emptySlot != null)
             return TryToAddToSlot(sender, emptySlot, item);
 
-        Debug.Log($"Cannot add item {item.type}, amount {item.state.amount}, there is no place for that.  ");
+        Debug.Log($"Cannot add item {item.type}, amount {item.state.amount}, there is no place for that.");
         return false;
     }
 
     public bool TryToAddToSlot(object sender, IInventorySlot slot, IInventoryItem item)
     {
-        bool fits = slot.amount + item.state.amount <= item.info.maxItemsInInventorySlot;
-        int amountToAdd = fits ? item.state.amount : item.info.maxItemsInInventorySlot - slot.amount;
-        int amountLeft = item.state.amount - amountToAdd;
+        var fits = slot.amount + item.state.amount <= item.info.maxItemsInInventorySlot;
+        var amountToAdd = fits ? item.state.amount : item.info.maxItemsInInventorySlot - slot.amount;
+        var amountLeft = item.state.amount - amountToAdd;
         var clonedItem = item.Clone();
 
         if (slot.isEmpty)
@@ -54,7 +53,7 @@ public class InventoryWithSlots : IInventory
         else
             slot.item.state.amount += amountLeft;
 
-        Debug.Log($"Item added to inventory. ItemType: {item.type}, amount: {amountToAdd}");
+        //Debug.Log($"Item added to inventory. ItemType: {item.type}, amount: {amountToAdd}");
         OnInventoryItemAddedEvent?.Invoke(sender, item, amountToAdd);
         OnInventoryStateChangedEvent?.Invoke(sender);
 
@@ -66,11 +65,11 @@ public class InventoryWithSlots : IInventory
         return TryToAdd(sender, item);
     }
     
-    public void Remove(object sender, Type itemType, int amount = 1)
+    public bool TryToRemove(object sender, Type itemType, int amount = 1)
     {
-        IInventorySlot[] slotsWithItem = GetAllSlots(itemType);
+        var slotsWithItem = GetAllSlots(itemType);
         if(slotsWithItem.Length == 0)
-            return;
+            return false;
 
         int amountToRemove = amount;
         int count = slotsWithItem.Length;
@@ -97,6 +96,8 @@ public class InventoryWithSlots : IInventory
             OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountRemoved);
             OnInventoryStateChangedEvent?.Invoke(sender);
         }
+
+        return true;
     }
 
     public bool HasItem(Type itemType, out IInventoryItem item)
@@ -113,10 +114,9 @@ public class InventoryWithSlots : IInventory
     public int GetItemAmount(Type itemType)
     {
         int amount = 0;
-        List<IInventorySlot> allItemSlots = _slots.
-            FindAll(slot => !slot.isEmpty && slot.itemType == itemType);
+        var allItemSlots = _slots.FindAll(slot => !slot.isEmpty && slot.itemType == itemType);
 
-        foreach (IInventorySlot slot in allItemSlots)
+        foreach (var slot in allItemSlots)
             amount += slot.amount;
 
         return amount;
@@ -126,7 +126,7 @@ public class InventoryWithSlots : IInventory
     {
         var allItems = new List<IInventoryItem>();
 
-        foreach(IInventorySlot slot in _slots)
+        foreach(var slot in _slots)
             if(!slot.isEmpty)
                 allItems.Add(slot.item);
 
@@ -136,23 +136,19 @@ public class InventoryWithSlots : IInventory
     public IInventoryItem[] GetAllItems(Type itemType)
     {
         var allItemsOfType = new List<IInventoryItem>();
-        List<IInventorySlot> slotsOfType = _slots.
-            FindAll(slot => !slot.isEmpty && slot.itemType == itemType);
+        var slotsOfType = _slots.FindAll(slot => !slot.isEmpty && slot.itemType == itemType);
 
-        foreach (IInventorySlot slot in slotsOfType)
+        foreach (var slot in slotsOfType)
             allItemsOfType.Add(slot.item);
 
         return allItemsOfType.ToArray();
     }
 
-    /// <param name="sender">Объект, вызвавший метод</param>
-    /// <param name="fromSlot">Из какого слота переносится предмет</param>
-    /// <param name="toSlot">В какой слот переносится предмет</param>
     public void TransitFromSlotToSlot(object sender, IInventorySlot fromSlot, IInventorySlot toSlot)
     {
         //слот из которого пытаемся пернести пустой
-        if (fromSlot.isEmpty) 
-            return;
+        //if (fromSlot.isEmpty) 
+            //return;
 
         //слот в который пытаемся перенести полный
         if (toSlot.isFull)
@@ -168,7 +164,7 @@ public class InventoryWithSlots : IInventory
         if (fromSlot == toSlot)
             return;
 
-        //если слот в который пытаемся перенести пустой, выполняем пернос, вызываем ивент        
+        //если слот в который пытаемся перенести пустой, выполняем пернос       
         if (toSlot.isEmpty)
         {
             toSlot.SetItem(fromSlot.item);
@@ -177,7 +173,7 @@ public class InventoryWithSlots : IInventory
         }
 
         int slotCapacity = fromSlot.capacity;
-        bool fits = fromSlot.amount + toSlot.amount <= slotCapacity;
+        var fits = fromSlot.amount + toSlot.amount <= slotCapacity;
         int amountToAdd = fits ? fromSlot.amount : slotCapacity - toSlot.amount;
         int amountLeft = fromSlot.amount - amountToAdd;
 
@@ -198,18 +194,22 @@ public class InventoryWithSlots : IInventory
     public IInventoryItem[] GetEquippedItems()
     {
         var equippedItems = new List<IInventoryItem>();
-        List<IInventorySlot> requiredSlots = _slots.
-            FindAll(slot => !slot.isEmpty && slot.item.state.isEquipped);
+        var requiredSlots = _slots.FindAll(slot => !slot.isEmpty && slot.item.state.isEquipped);
 
-        foreach (IInventorySlot slot in requiredSlots)
+        foreach (var slot in requiredSlots)
             equippedItems.Add(slot.item);
 
         return equippedItems.ToArray();
     }
 
-    public IInventorySlot[] GetAllSlots()
+    public IInventorySlot[] GetAllEmptySlots()
     {
         return _slots.FindAll(slot => slot.isEmpty).ToArray();
+    }
+
+    public IInventorySlot[] GetAllSlots()
+    {
+        return _slots.ToArray();
     }
 
     public IInventorySlot[] GetAllSlots(Type itemType)

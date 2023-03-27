@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIWidgetLifeBar : MonoBehaviour
 {
     [SerializeField] private ProgressBar progressBar;
+    [SerializeField] private NPC player;
 
     private void OnEnable()
     {
-        var example = FindObjectOfType<TimerExample>();
-        progressBar.SetValue(example.healthNormalized);
+        progressBar.SetValue(player.health);
 
-        example.OnPlayerHealthValueChangedEvent += OnPlayerHealthValueChanged;
+        player.OnPlayerHealthValueChangedEvent += OnPlayerHealthValueChanged;
     }
 
     private void OnPlayerHealthValueChanged(float newValueNormalized)
@@ -21,9 +19,7 @@ public class UIWidgetLifeBar : MonoBehaviour
 
     private void OnDisable()
     {
-        var example = FindObjectOfType<TimerExample>();
-
-        if(example)
-            example.OnPlayerHealthValueChangedEvent -= OnPlayerHealthValueChanged;
+        if(player)
+            player.OnPlayerHealthValueChangedEvent -= OnPlayerHealthValueChanged;
     }
 }

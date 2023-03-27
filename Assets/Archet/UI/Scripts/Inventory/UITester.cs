@@ -16,18 +16,16 @@ public class UITester
         _pepperInfo = pepperInfo;
         _uiSlots = uiSlots;
 
-        inventory = new InventoryWithSlots(15);
+        inventory = new InventoryWithSlots(uiSlots.Length);
         inventory.OnInventoryStateChangedEvent += OnInventoryStateChanged;
     }
 
-    public void OnFillingLots()
+    public void OnFillingSlots()
     {
         var allSlots = inventory.GetAllSlots();
         var avaliableSlots = new List<IInventorySlot>(allSlots);
-        Debug.Log($"{avaliableSlots.Count} - empty slots");
-        Debug.Log($"{allSlots.Length} - all slots");
+        int filledSlots = 5;
 
-        var filledSlots = 5;
         for (int i = 0; i < filledSlots; i++)
         {
             var filledSlot = AddRandomAppleIntoRandomSlots(avaliableSlots);
@@ -45,9 +43,9 @@ public class UITester
         var rSlotIndex = Random.Range(0, slots.Count);
         var rSlot = slots[rSlotIndex];
         var rCount = Random.Range(1, 4);
-        var item = new Apple(_appleInfo);
-        item.state.amount = rCount;
-        inventory.TryToAddToSlot(this, rSlot, item);
+        var apple = new Apple(_appleInfo);
+        apple.state.amount = rCount;
+        inventory.TryToAddToSlot(this, rSlot, apple);
   
         return rSlot;
     }
@@ -57,9 +55,9 @@ public class UITester
         var rSlotIndex = Random.Range(0, slots.Count);
         var rSlot = slots[rSlotIndex];
         var rCount = Random.Range(1, 4);
-        var item = new Pepper(_pepperInfo);
-        item.state.amount = rCount;
-        inventory.TryToAddToSlot(this, rSlot, item);
+        var pepper = new Pepper(_pepperInfo);
+        pepper.state.amount = rCount;
+        inventory.TryToAddToSlot(this, rSlot, pepper);
 
         return rSlot;
     }

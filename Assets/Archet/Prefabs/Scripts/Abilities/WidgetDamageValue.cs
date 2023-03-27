@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using TMPro;
+using UnityEngine;
 
 public class WidgetDamageValue : MonoBehaviour
 {
-    [SerializeField] private Text _textValue;
+    [SerializeField] private TMP_Text _textValue;
 
     public void SetValue(string newValue)
     {

@@ -20,7 +20,7 @@ public class InventorySlot : IInventorySlot
             return;
 
         this.item = item;
-        this.capacity = item.info.maxItemsInInventorySlot;
+        capacity = item.info.maxItemsInInventorySlot;
     }
     
     public void Clear()
@@ -28,7 +28,6 @@ public class InventorySlot : IInventorySlot
         if (isEmpty) 
             return;
 
-        item.state.amount = 0;
         item = null; 
     }
 }

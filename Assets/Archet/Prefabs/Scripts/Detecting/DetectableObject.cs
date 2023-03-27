@@ -7,11 +7,11 @@ public class DetectableObject : MonoBehaviour, IDetectableObject
 
     public void Detected(GameObject detectionSource)
     {
-          OnGameObjectDetectEvent?.Invoke(detectionSource, this.gameObject);
+        OnGameObjectDetectEvent?.Invoke(detectionSource, gameObject);
     }
 
     public void DetectionReleased(GameObject detectionSource)
     {
-        OnGameObjectDetectionReleasedEvent?.Invoke(detectionSource, this.gameObject);
+        OnGameObjectDetectionReleasedEvent?.Invoke(detectionSource, gameObject);
     }
 }

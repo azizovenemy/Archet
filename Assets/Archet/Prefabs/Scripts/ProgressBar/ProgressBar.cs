@@ -9,9 +9,9 @@ public class ProgressBar : MonoBehaviour
 
     public void SetValue(float valueNormalized)
     {
-        this.imageFiller.fillAmount = valueNormalized;
+        imageFiller.fillAmount = valueNormalized;
 
         var valueInPercent = Mathf.RoundToInt(valueNormalized * 100f);
-        this.textValue.text = $"{valueInPercent}%";
+        textValue.text = $"{valueInPercent}%";
     }
 }

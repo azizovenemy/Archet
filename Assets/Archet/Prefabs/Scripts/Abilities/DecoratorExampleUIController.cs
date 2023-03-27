@@ -40,11 +40,10 @@ public class DecoratorExampleUIController : MonoBehaviour
 
     private void OnDamageButtonClick()
     {
-        Debug.Log("Damage");
-
         IAbility ability = new Ability(10, DamageType.Physical);
         ability = new AbilityDurationalDamage(ability, 5, 10);
         ability = new AbilityAdditionalDamage(ability, 20, DamageType.Magical);
+        ability = new AbilityAdditionalDamage(ability, 10, DamageType.Physical);
         ability.ApplyDamage(_unit);
     }
 }

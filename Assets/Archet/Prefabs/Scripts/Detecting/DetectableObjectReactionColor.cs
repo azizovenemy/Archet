@@ -42,6 +42,6 @@ public class DetectableObjectReactionColor : MonoBehaviour
 
     private void SetColor(Color color)
     {
-        _material.SetColor("_BaseColor", color);
+        _material.SetColor("_Color", color);
     }
 }
