@@ -157,7 +157,7 @@ public class InventoryWithSlots : IInventory
         //если слот в который пытаемся перенести не пустой,
         //но тип переносимого предмета отличается от уже лежащего в слоте
         //нельзя стакнуть
-        if (!toSlot.isEmpty && fromSlot.itemType != toSlot.itemType)
+        if (!toSlot.isEmpty && fromSlot.item.info.title != toSlot.item.info.title)
             return;
 
         //если пытаемся перенести в тот же слот

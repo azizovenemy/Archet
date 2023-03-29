@@ -1,14 +1,13 @@
 using System;
 
-public class Apple : IInventoryItem
+public class Item : IInventoryItem
 {
     public Type type => GetType();
 
     public IInventoryItemInfo info { get; }
-
     public IInventoryItemState state { get; }
 
-    public Apple(IInventoryItemInfo info)
+    public Item(IInventoryItemInfo info)
     {
         this.info = info;
         state = new InventoryItemState();
@@ -16,7 +15,7 @@ public class Apple : IInventoryItem
 
     public IInventoryItem Clone()
     {
-        var clonnedApple = new Apple(info);
+        var clonnedApple = new Item(info);
         clonnedApple.state.amount = state.amount;
         return clonnedApple;
     }
